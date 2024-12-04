@@ -24,11 +24,14 @@ userSchema.pre('save', async function (next) {
 });
 
 // Generate reset password token
+const { randomBytes } = require('crypto');
+
 userSchema.methods.getResetPasswordToken = function () {
-    const resetToken = crypto.randomBytes(20).toString('hex');
-    this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+    const resetToken = randomBytes(20).toString('hex');
+    this.resetPasswordToken = resetToken;
     this.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // Token valid for 10 minutes
     return resetToken;
 };
+
 
 module.exports = mongoose.model('User', userSchema);
