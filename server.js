@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
-
+const path = require('path');
 const PORT = process.env.PORT || 8070; //8070 OR 8070 eka nattan wena available ekak
 
 app.use(cors()); //declare karapuwa use karanawa
@@ -36,6 +36,7 @@ app.use("/products",productRouter); //assign wela thiyena file eka load wenna
 app.use("/categorys",categoryRouter);
 app.use("/auth",authRouter);
 app.use("/events",eventRouter);
+app.use('/uploads', express.static(path.join(__dirname)));
 
 app.listen(PORT, () => { //ara port eka listn krnna
     console.log(`Server is up and running on port number: ${PORT}`);
