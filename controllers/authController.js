@@ -7,7 +7,7 @@ const JWT_SECRET='049ebd26ec31a0ef163ea11d3f4541e3891245195eacd1727086b5ee82aa6c
 exports.signup = async (req, res) => {
     try {
         const { name, address, email, phone, password, role, employeeId, nic } = req.body;
-
+        console.log(name, address, email, phone, password, role, employeeId, nic);
         if (role === 'admin' && !employeeId) {
             return res.status(400).json({ message: 'Employee ID is required for admins' });
         }
@@ -26,6 +26,7 @@ exports.signup = async (req, res) => {
             nic: role === 'user' ? nic : undefined,
         });
 
+        console.log(newUser);
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
