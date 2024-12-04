@@ -28,11 +28,13 @@ connection.once("open", () => {
 const productRouter = require("./routes/products.js");
 const categoryRouter = require("./routes/categorys.js");
 const authRouter = require("./routes/authRoutes.js");
+const eventRouter = require("./routes/eventRoutes.js");
 
 
 app.use("/products",productRouter); //assign wela thiyena file eka load wenna
 app.use("/categorys",categoryRouter);
 app.use("/auth",authRouter);
+app.use("/events",eventRouter);
 
 app.listen(PORT, () => { //ara port eka listn krnna
     console.log(`Server is up and running on port number: ${PORT}`);
