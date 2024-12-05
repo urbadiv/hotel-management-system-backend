@@ -5,7 +5,8 @@ const {
     getAllMenuItems,
     getMenuItemById,
     updateMenuItem,
-    deleteMenuItem
+    deleteMenuItem,
+    getMenuItemsByType, // Import the new method
 } = require('../controllers/menuItemController');
 const upload = require('../middleware/upload'); // Middleware for handling file uploads
 
@@ -13,6 +14,9 @@ const router = express.Router();
 
 // Public route: Get all menu items
 router.get('/menu-items', getAllMenuItems);
+
+// Public route: Get menu items by type (Breakfast, Lunch, Dinner)
+router.get('/menu-items/type/:type', getMenuItemsByType);  // Add this route
 
 // Protected routes: Admin actions
 router.use(verifyToken);

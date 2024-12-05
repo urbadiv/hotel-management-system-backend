@@ -81,10 +81,28 @@ const deleteMenuItem = async (req, res) => {
     }
 };
 
+// Get menu items by type (Breakfast, Lunch, Dinner)
+const getMenuItemsByType = async (req, res) => {
+    try {
+        const { type } = req.params;
+        const validTypes = ['Breakfast', 'Lunch', 'Dinner'];
+
+        if (!validTypes.includes(type)) {
+            return res.status(400).json({ error: 'Invalid menu type' });
+        }
+
+        const menuItems = await MenuItem.find({ type });
+        res.status(200).json(menuItems);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 module.exports = {
     createMenuItem,
     getAllMenuItems,
     getMenuItemById,
     updateMenuItem,
     deleteMenuItem,
+    getMenuItemsByType, // Export the new method
 };
