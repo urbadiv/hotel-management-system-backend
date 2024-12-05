@@ -16,6 +16,10 @@ const roomSchema = new mongoose.Schema({
     required: true,
     min: [0, 'Rate must be a positive number'],
   },
+  photo: {
+    type: String, // URL to the photo
+    required: false, // Optional, set to `true` if photo is mandatory
+  },
 }, {
   timestamps: true,
 });

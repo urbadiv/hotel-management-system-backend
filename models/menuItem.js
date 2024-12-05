@@ -19,6 +19,9 @@ const menuItemSchema = new mongoose.Schema({
     enum: ['Breakfast', 'Lunch', 'Dinner'],
     required: true,
   },
+  photo: {
+    type: String, // Path to the uploaded photo
+  },
 }, {
   timestamps: true,
 });
