@@ -36,6 +36,7 @@ const roomRouter = require("./routes/roomRoutes.js");
 const menuItemRouter = require("./routes/roomRoutes.js");
 const bookingRouter = require("./routes/bookingRoutes.js");
 const orderRouter = require("./routes/orderRoutes.js");
+const invoiceRouter = require("./routes/invoiceRoutes.js");
 //----------------------------------------------------------------------------
 
 
@@ -50,6 +51,7 @@ app.use("/rooms",roomRouter);
 app.use("/menuItems",menuItemRouter);
 app.use("/booking",bookingRouter);
 app.use("/order",orderRouter);
+app.use("/invoice",invoiceRouter);
 //----------------------------------------------------------------------------
 
 
