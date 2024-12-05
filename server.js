@@ -5,13 +5,15 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
-
+const path = require('path');
 const PORT = process.env.PORT || 8070; //8070 OR 8070 eka nattan wena available ekak
-
+const dotenv = require("dotenv");
 app.use(cors()); //declare karapuwa use karanawa
 app.use(bodyParser.json());
 
-const URL = "mongodb+srv://bhawan:200132400588@atlascluster.fl5bp73.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster"; 
+
+// const URL = "mongodb+srv://bhawan:200132400588@atlascluster.fl5bp73.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster";
+const URL = "mongodb+srv://dineth550:20021213@studentms.q45in7h.mongodb.net/";
 
 mongoose.connect(URL, { //connect mongodb
     //useCreateIndex: true, 
@@ -27,10 +29,15 @@ connection.once("open", () => {
 
 const productRouter = require("./routes/products.js");
 const categoryRouter = require("./routes/categorys.js");
+const authRouter = require("./routes/authRoutes.js");
+const eventRouter = require("./routes/eventRoutes.js");
 
 
 app.use("/products",productRouter); //assign wela thiyena file eka load wenna
 app.use("/categorys",categoryRouter);
+app.use("/auth",authRouter);
+app.use("/events",eventRouter);
+app.use('/uploads', express.static(path.join(__dirname)));
 
 app.listen(PORT, () => { //ara port eka listn krnna
     console.log(`Server is up and running on port number: ${PORT}`);
