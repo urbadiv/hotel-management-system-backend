@@ -7,12 +7,16 @@ const {
     getRoomById,
     updateRoom,
     deleteRoom,
+    getRoomsByType, // Import the new method
 } = require('../controllers/roomController');
 
 const router = express.Router();
 
 // Public: Get all rooms
 router.get('/rooms', getAllRooms);
+
+// Public: Get rooms by type (e.g., 'single', 'double', etc.)
+router.get('/rooms/type/:type', getRoomsByType);  // Add this route
 
 // Protected: Require authentication for the following routes
 router.use(verifyToken);

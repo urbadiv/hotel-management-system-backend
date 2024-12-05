@@ -76,10 +76,28 @@ const deleteRoom = async (req, res) => {
     }
 };
 
+// Get rooms by type
+const getRoomsByType = async (req, res) => {
+    try {
+        const { type } = req.params; // type will be passed in the URL parameter
+        const rooms = await Room.find({ type });
+
+        if (rooms.length === 0) {
+            return res.status(404).json({ error: 'No rooms found for this type' });
+        }
+
+        res.status(200).json(rooms);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 module.exports = {
     createRoom,
     getAllRooms,
     getRoomById,
     updateRoom,
     deleteRoom,
+    getRoomsByType,
 };
