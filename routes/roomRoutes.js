@@ -25,8 +25,8 @@ router.use(verifyToken);
 router.get('/rooms/:id', getRoomById);
 
 // Admin-only: Create, Update, and Delete rooms
-router.post('/rooms', authorizeRole(['admin']), upload.single('photo'), createRoom);
-router.put('/rooms/:id', authorizeRole(['admin']), upload.single('photo'), updateRoom);
-router.delete('/rooms/:id', authorizeRole(['admin']), deleteRoom);
+router.post('/rooms', authorizeRole('admin'), upload.single('photo'), createRoom);
+router.put('/rooms/:id', authorizeRole('admin'), upload.single('photo'), updateRoom);
+router.delete('/rooms/:id', authorizeRole('admin'), deleteRoom);
 
 module.exports = router;

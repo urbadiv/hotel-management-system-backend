@@ -20,6 +20,10 @@ const roomSchema = new mongoose.Schema({
     type: String, // URL to the photo
     required: false, // Optional, set to `true` if photo is mandatory
   },
+  description: {
+    type: String, // A short description of the room
+    required: false, // Optional description
+  },
 }, {
   timestamps: true,
 });
