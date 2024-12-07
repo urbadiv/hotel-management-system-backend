@@ -12,9 +12,9 @@ router.route("/add").post(upload.single('image'), (req, res) => {
     const pid = Number(req.body.pid);
     const category = req.body.category;
     const description = req.body.description;
-    const rentalPrice = req.body.rentalPrice;
+    const expirationDate = new Date(req.body.expirationDate);
     const availability = true;
-    const isSelect = false;
+    const isExpired = false; 
 
 
     // Check if file was uploaded
@@ -30,10 +30,10 @@ router.route("/add").post(upload.single('image'), (req, res) => {
         name,
         pid,
         category,
+        isExpired,
+        expirationDate,
         description,
-        rentalPrice,
         availability,
-        isSelect,
         image
     });
 
@@ -103,11 +103,25 @@ router.route("/get/:id").get(async (req, res) => {
 
 })
 
-// Get count of all documents
+// Get count of all documents and update expired status
 router.route("/count").get(async (req, res) => {
     try {
+        // Get the current date
+        const currentDate = new Date();
+
+        // Update `isExpired` to true for expired products
+        const expiredProducts = await Product.updateMany(
+            { expirationDate: { $lt: currentDate } }, // Match expired products
+            { $set: { isExpired: true } }            // Set `isExpired` to true
+        );
+
+        // Get the total count of all documents
         const count = await Product.countDocuments();
-        res.status(200).json({ count });
+
+        res.status(200).json({
+            count,
+            expiredUpdated: expiredProducts.modifiedCount, // Number of documents updated
+        });
     } catch (err) {
         console.log(err);
         res.status(500).json({ status: "Error", error: err.message });
@@ -160,7 +174,7 @@ router.route("/addDamage/:id").put(async (req,res) => {
 
 // Get All damaged
 router.route("/getDamaged").get((req, res) => {
-    Product.find({ isDamaged: true }).then((products) => {
+    Product.find({ isExpired: true }).then((products) => {
         res.json(products);
     }).catch((err) => {
         console.log(err);
@@ -243,7 +257,7 @@ router.route("/deleteDisposed/:id").put(async (req,res) => {
 // Damage Item Count
 router.route("/damagedItemCount").get(async (req, res) => {
     try {
-        const count = await Product.countDocuments({ isDamaged: true });
+        const count = await Product.countDocuments({ isExpired: true });
         res.status(200).json({ count });
     } catch (err) {
         console.log(err);

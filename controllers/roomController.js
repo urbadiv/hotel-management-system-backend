@@ -3,11 +3,13 @@ const Room = require('../models/room');
 // Create a new room
 const createRoom = async (req, res) => {
     try {
-        const { type, status, rate } = req.body;
+        const { type, status, rate, description } = req.body;
         const photo = req.file ? req.file.path : null; // Assuming photo is uploaded as a file
-        const newRoom = new Room({ type, status, rate, photo });
+        const newRoom = new Room({ type, status, rate, description, photo });
         const savedRoom = await newRoom.save();
         res.status(201).json(savedRoom);
+        console.log(savedRoom);
+        
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -91,7 +93,6 @@ const getRoomsByType = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
 
 module.exports = {
     createRoom,

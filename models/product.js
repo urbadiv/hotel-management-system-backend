@@ -15,7 +15,7 @@ const productSchema = new Schema({ //object ekak hadanwa wage deyak
     category : {
         type : String,
     },
-    isDamaged : {
+    isExpired : {
         type: Boolean
     },
     DamagedQty : {
@@ -27,21 +27,17 @@ const productSchema = new Schema({ //object ekak hadanwa wage deyak
     DisposedQty : {
         type: Number
     },
+    expirationDate : {
+        type : Date,
+    },
     //bawan requirements
     description: {
         type: String,
         required: true
     },
-    rentalPrice: {
-        type: Number,
-        required: true
-    },
     availability: {
         type: Boolean,
         required: true
-    },
-    isSelect : {
-        type: Boolean
     },
     //add image
     image: {
