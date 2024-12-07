@@ -2,7 +2,7 @@ const Employee = require("../models/employee");
 const Role = require("../models/role");
 
 exports.addEmployee = async (req, res) => {
-  const { name, address, role } = req.body;
+  const { name, address, phone, nic, role } = req.body;
 
   try {
     // Find the role by name
@@ -25,6 +25,8 @@ exports.addEmployee = async (req, res) => {
     const newEmployee = new Employee({
       name,
       address,
+      phone,
+      nic,
       role: roleDetails._id, // Use the ObjectId of the role
       salary: roleDetails.salary,
     });
@@ -36,6 +38,11 @@ exports.addEmployee = async (req, res) => {
       employee: newEmployee,
     });
   } catch (error) {
+    if (error.name === "ValidationError") {
+      return res
+        .status(400)
+        .json({ message: "Validation error", errors: error.errors });
+    }
     res.status(500).json({ message: "Error adding employee", error });
   }
 };
@@ -51,7 +58,7 @@ exports.getEmployees = async (req, res) => {
 
 exports.updateEmployee = async (req, res) => {
   const { id } = req.params; // Employee ID to update
-  const { name, address, role } = req.body; // Updated details
+  const { name, address, phone, nic, role } = req.body; // Updated details
 
   try {
     // Find the employee by ID
@@ -84,6 +91,8 @@ exports.updateEmployee = async (req, res) => {
     // Update the employee details
     employee.name = name || employee.name;
     employee.address = address || employee.address;
+    employee.phone = phone || employee.phone;
+    employee.nic = nic || employee.nic;
 
     // Save the updated employee
     await employee.save();
@@ -92,9 +101,15 @@ exports.updateEmployee = async (req, res) => {
       employee,
     });
   } catch (error) {
+    if (error.name === "ValidationError") {
+      return res
+        .status(400)
+        .json({ message: "Validation error", errors: error.errors });
+    }
     res.status(500).json({ message: "Error updating employee", error });
   }
 };
+
 exports.deleteEmployee = async (req, res) => {
   const { id } = req.params;
 
