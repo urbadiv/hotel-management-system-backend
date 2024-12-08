@@ -32,3 +32,41 @@ exports.updateUserProfile = async (req, res) => {
         res.status(500).json({ message: 'Error updating profile', error: error.message });
     }
 };
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Access denied, admin only' });
+        }
+
+        const users = await User.find({}, '_id name email role nic employeeId');
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching users', error: error.message });
+    }
+};
+
+// Delete user (only if the user's role is 'user', admin only)
+exports.deleteUser = async (req, res) => {
+    try {
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Access denied, admin only' });
+        }
+
+        const userId = req.params.id;
+        const userToDelete = await User.findById(userId);
+
+        if (!userToDelete) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (userToDelete.role !== 'user') {
+            return res.status(400).json({ message: 'Cannot delete a Administrator' });
+        }
+
+        await User.findByIdAndDelete(userId);
+        res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting user', error: error.message });
+    }
+};
