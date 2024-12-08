@@ -33,7 +33,7 @@ const authRouter = require("./routes/authRoutes.js");
 const eventRouter = require("./routes/eventRoutes.js");
 //----------------------------------------------------------------------------
 const roomRouter = require("./routes/roomRoutes.js");
-const menuItemRouter = require("./routes/roomRoutes.js");
+const menuItemRouter = require("./routes/menuItemRoutes.js");
 const bookingRouter = require("./routes/bookingRoutes.js");
 const orderRouter = require("./routes/orderRoutes.js");
 const invoiceRouter = require("./routes/invoiceRoutes.js");
