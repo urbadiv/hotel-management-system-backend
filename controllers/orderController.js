@@ -5,13 +5,13 @@ const Room = require('../models/room');
 // Create a new order
 const createOrder = async (req, res) => {
     try {
-        const { roomID, menuItemID, quantity } = req.body;
+        const { roomID, menuItemID, quantity, menuItemName, totalCost } = req.body;
 
-        // Validate Room existence
-        const room = await Room.findById(roomID);
-        if (!room) {
-            return res.status(404).json({ error: 'Room not found' });
-        }
+        // // Validate Room existence
+        // const room = await Room.findById(roomID);
+        // if (!room) {
+        //     return res.status(404).json({ error: 'Room not found' });
+        // }
 
         // Validate MenuItem existence
         const menuItem = await MenuItem.findById(menuItemID);
@@ -20,18 +20,18 @@ const createOrder = async (req, res) => {
         }
 
         // Calculate total cost
-        const totalCost = menuItem.price * quantity;
+        // const totalCost = menuItem.price * quantity;
 
         // Create order
         const newOrder = new Order({
             userID: req.user.id,
             roomID,
             menuItemID,
-            menuItemName: menuItem.name,
+            menuItemName,
             totalCost,
             quantity,
         });
-
+        console.log(req.user.id)
         const savedOrder = await newOrder.save();
         res.status(201).json(savedOrder);
     } catch (error) {
@@ -42,9 +42,10 @@ const createOrder = async (req, res) => {
 // Get all orders for the logged-in user
 const getOrdersByUser = async (req, res) => {
     try {
+        
         const orders = await Order.find({ userID: req.user.id })
-            .populate('roomID', 'type')
-            .populate('menuItemID', 'name price');
+            // .populate('roomID', 'type')
+            // .populate('menuItemID', 'name price');
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ error: error.message });

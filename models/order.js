@@ -7,13 +7,11 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   roomID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Room',
+    type: String,
     required: true,
   },
   menuItemID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'MenuItem',
+    type: String,
     required: true,
   },
   menuItemName: {
