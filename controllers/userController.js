@@ -35,7 +35,8 @@ exports.updateUserProfile = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
     try {
-        if (req.user.role !== 'admin') {
+        const allowedRoles = ['admin', 'event-manager', 'inventory-manager', 'booking-manager', 'hr-manager'];
+        if (!allowedRoles.includes(req.user.role)) {
             return res.status(403).json({ message: 'Access denied, admin only' });
         }
 
@@ -49,7 +50,8 @@ exports.getAllUsers = async (req, res) => {
 // Delete user (only if the user's role is 'user', admin only)
 exports.deleteUser = async (req, res) => {
     try {
-        if (req.user.role !== 'admin') {
+        const allowedRoles = ['admin', 'event-manager', 'inventory-manager', 'booking-manager', 'hr-manager'];
+        if (!allowedRoles.includes(req.user.role)) {
             return res.status(403).json({ message: 'Access denied, admin only' });
         }
 

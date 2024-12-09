@@ -22,7 +22,7 @@ exports.signup = async (req, res) => {
             phone,
             password,
             role,
-            employeeId: role === 'admin' ? employeeId : undefined,
+            employeeId: role === 'admin' || 'event-manager' || 'inventory-manager' || 'booking-manager' || 'hr-manager' ? employeeId : undefined,
             nic: role === 'user' ? nic : undefined,
         });
 

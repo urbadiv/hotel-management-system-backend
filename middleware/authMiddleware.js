@@ -36,7 +36,10 @@ exports.verifyToken = (req, res, next) => {
 };
 
 exports.authorizeRole = (role) => (req, res, next) => {
-    if (req.user.role !== role) {
+
+    const allowedRoles = ['admin', 'event-manager', 'inventory-manager', 'booking-manager', 'hr-manager'];
+
+    if (!allowedRoles.includes(req.user.role)) {
         return res.status(403).json({ message: 'Access denied' });
     }
     next();
