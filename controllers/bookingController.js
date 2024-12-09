@@ -12,6 +12,8 @@ const createBooking = async (req, res) => {
             return res.status(404).json({ error: 'Room not found' });
         }
 
+        
+
         const newBooking = new Booking({
             userID: req.user.id,
             checkIn,
